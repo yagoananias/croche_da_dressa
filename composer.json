@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "": "vendor\\croche_da_dressa\\php-classes\\src"
+            "yagoananias\\": "vendor\\yagoananias\\php-classes\\src"
         }
     }
 }
