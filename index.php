@@ -1,10 +1,12 @@
-<?php 
+<?php
+session_start(); 
 //Composer
 require_once("vendor/autoload.php");
 //Namespaces
 use \Slim\Slim;
 use \yagoananias\Page;
 use \yagoananias\PageAdmin;
+use \yagoananias\Model\User;
 //Nova Aplicação(Rotas)
 $app = new Slim();
 
@@ -19,6 +21,8 @@ $app->get('/', function() {
 });
 
 $app->get('/admin/', function() {
+
+	User::verifyLogin();
     
 	$page = new PageAdmin();
 
@@ -26,6 +30,33 @@ $app->get('/admin/', function() {
 
 });
 
+$app->get('/admin/login', function() {
+    //Desabilita o header e o footer padrão
+	$page = new PageAdmin([
+		"header"=>false,
+		"footer"=>false
+
+	]);
+
+	$page->setTpl("login");
+
+});
+$app->post('/admin/login', function() {
+
+	User::login($_POST["login"], $_POST["password"]);
+
+	header("Location: /admin");
+	exit;
+
+});
+
+$app->get('/admin/logout', function() {
+
+	User::logout();
+
+	header("Location: /admin/login");
+	exit;
+});
 $app->run();
 
  ?>
