@@ -1,18 +1,19 @@
 <?php 
-
+//Composer
 require_once("vendor/autoload.php");
-
-$app = new \Slim\Slim();
+//Namespaces
+use \Slim\Slim;
+use \yagoananias\Page;
+//Nova Aplicação(Rotas)
+$app = new Slim();
 
 $app->config('debug', true);
-
+//Rotas (ao chamar pasta raiz do site executa essa função que carrega a página***
 $app->get('/', function() {
     
-	$sql = new yagoananias\DB\Sql();
+	$page = new Page();
 
-	$results = $sql->select("SELECT * FROM tb_users");
-
-	echo json_encode($results);
+	$page->setTpl("index");
 
 });
 
